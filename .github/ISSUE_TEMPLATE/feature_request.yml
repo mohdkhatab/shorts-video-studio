@@ -1,0 +1,55 @@
+name: Feature / new recipe
+description: Propose a background, font, transition, effect, or pipeline improvement.
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of addition
+      options:
+        - New background recipe
+        - New font
+        - New transition
+        - New text treatment or effect
+        - Sync / alignment quality
+        - Script formula or Hinglish rules
+        - Tooling / packaging / CI
+        - Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What it is, and which VARIETY RULE it helps satisfy.
+      placeholder: "A 'risograph misprint' background: two offset halftone layers in complementary spot colours. It adds a non-gradient background technique."
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it is worth it
+      description: What does the output look less like a generic template because of it?
+    validations:
+      required: true
+
+  - type: textarea
+    id: cost
+    attributes:
+      label: Cost and risk
+      description: Extra render time per frame, new dependency, license, or size on disk.
+      placeholder: "+6 ms/frame at 720x1280, no new dependency, MIT/OFL-clean."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Compatibility
+      options:
+        - label: This does not require a new pip dependency
+        - label: If it adds a font, I have checked it is OFL-1.1 and can supply the license file
+        - label: This keeps the engine usable with no voiceover (music + estimated timing)

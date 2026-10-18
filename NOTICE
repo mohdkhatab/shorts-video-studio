@@ -1,0 +1,66 @@
+# Third-party notices
+
+This repository contains the following third-party components. Each is used
+unmodified and is redistributed under its own license; the original license
+text ships alongside the files.
+
+## Fonts — `skills/shorts-video-studio/assets/fonts/`
+
+All bundled fonts are licensed under the **SIL Open Font License, Version 1.1**
+(OFL-1.1). The OFL permits bundling and redistribution, including inside a
+commercial product, provided the font files are not sold on their own and the
+Reserved Font Name is respected (renaming is required if you modify them).
+
+| File | Family / style | License file | Upstream |
+|---|---|---|---|
+| `BigShoulders-Bold.ttf` | Big Shoulders Bold | `BigShoulders-OFL.txt` | https://github.com/xotypeco/big_shoulders |
+| `Boldonse-Regular.ttf` | Boldonse Regular | `Boldonse-OFL.txt` | https://github.com/google/fonts/tree/main/ofl/boldonse |
+| `BricolageGrotesque-Bold.ttf` | Bricolage Grotesque Bold | `BricolageGrotesque-OFL.txt` | https://github.com/ateliertriay/bricolage |
+| `BricolageGrotesque-Regular.ttf` | Bricolage Grotesque Regular | `BricolageGrotesque-OFL.txt` | https://github.com/ateliertriay/bricolage |
+| `EricaOne-Regular.ttf` | Erica One Regular | `EricaOne-OFL.txt` | https://github.com/google/fonts/tree/main/ofl/ericaone |
+| `Gloock-Regular.ttf` | Gloock Regular | `Gloock-OFL.txt` | https://github.com/google/fonts/tree/main/ofl/gloock |
+| `InstrumentSerif-Italic.ttf` | Instrument Serif Italic | `InstrumentSerif-OFL.txt` | https://github.com/Instrument/instrument-serif |
+| `JetBrainsMono-Bold.ttf` | JetBrains Mono Bold | `JetBrainsMono-OFL.txt` | https://github.com/JetBrains/JetBrainsMono |
+| `JetBrainsMono-Regular.ttf` | JetBrains Mono Regular | `JetBrainsMono-OFL.txt` | https://github.com/JetBrains/JetBrainsMono |
+| `NothingYouCouldDo-Regular.ttf` | Nothing You Could Do | `NothingYouCouldDo-OFL.txt` | https://github.com/google/fonts/tree/main/ofl/nothingyoucoulddo |
+| `NotoColorEmoji.ttf` | Noto Color Emoji | `NotoColorEmoji-OFL.txt` | https://github.com/googlefonts/noto-emoji |
+| `PixelifySans-Medium.ttf` | Pixelify Sans Medium | `PixelifySans-OFL.txt` | https://github.com/google/fonts/tree/main/ofl/pixelifysans |
+| `Tektur-Medium.ttf` | Tektur Medium | `Tektur-OFL.txt` | https://github.com/google/fonts/tree/main/ofl/tektur |
+| `WorkSans-Bold.ttf` | Work Sans Bold | `WorkSans-OFL.txt` | https://github.com/weiweihuanghuang/Work-Sans |
+| `WorkSans-Regular.ttf` | Work Sans Regular | `WorkSans-OFL.txt` | https://github.com/weiweihuanghuang/Work-Sans |
+
+Notes
+* `NotoColorEmoji.ttf` is a ~10 MB CBDT/CBLC colour-bitmap font. Pillow renders it
+  through `ImageFont.truetype(..., size=109)` (the fixed bitmap strike) with
+  `embedded_color=True`; see `EM()` in the engine.
+* No font in this list uses a Reserved Font Name restriction that prevents
+  redistribution of the unmodified file.
+* If you swap a font out, keep the matching OFL file with it so downstream users
+  remain license-compliant.
+
+## Runtime dependencies (installed, not vendored)
+
+| Component | License | Home |
+|---|---|---|
+| FFmpeg / ffprobe (external binary) | LGPL-2.1+ / GPL-2.0+ depending on build | https://ffmpeg.org/legal.html |
+| NumPy | BSD-3-Clause | https://numpy.org |
+| OpenCV (opencv-python-headless) | Apache-2.0 | https://opencv.org |
+| Pillow | MIT-CMU | https://python-pillow.org |
+| SciPy | BSD-3-Clause | https://scipy.org |
+
+FFmpeg is invoked as a separate process, never linked, so its license does not
+propagate to this project. Check your own FFmpeg build's configuration
+(`ffmpeg -version`) if you redistribute binaries.
+
+## Optional services
+
+* **ElevenLabs** (`scripts/tts_elevenlabs.py`) is an optional, user-supplied
+  third-party API. No key, audio or account data ships with this repository, and
+  generated voices are subject to ElevenLabs' own terms. If you do not want to
+  use it, the engine renders fine with synthesized music and estimated timing.
+
+## Emoji artwork
+
+Colour emoji glyphs rendered into the output video come from Noto Color Emoji
+(OFL-1.1, `Copyright 2013 Google LLC`). Emoji designs are covered by that
+license; platform-specific vendor emoji sets are **not** included.

@@ -1,0 +1,96 @@
+name: Bug report
+description: Something broke, rendered wrong, or is not reproducible.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Two things make a bug fixable in minutes instead of
+        days: **the exact command** and **the raw output/traceback**. Please fill
+        both in.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+      placeholder: "Frame 812 has the caption overflowing the right edge; I expected it to wrap."
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Exact command(s)
+      description: Copy-paste, including env vars.
+      render: shell
+      placeholder: |
+        source .venv/bin/activate
+        VOICE=voice.mp3 OUT_DIR=./out WORK=./work python video.py
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Full output / traceback / measurements
+      description: Raw text. Do not truncate a traceback.
+      render: text
+    validations:
+      required: true
+
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Which stage failed
+      multiple: true
+      options:
+        - setup.sh / dependency install
+        - TEST=1 render (contact-sheet PNGs)
+        - final render (video.mp4)
+        - audio / loudness / mixing
+        - voiceover (tts_elevenlabs.py or MCP)
+        - voice sync / cue timing
+        - captions / SRT
+        - review_frames.py QA report
+        - install.sh / skill not loading
+        - something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Output of the commands below.
+      render: shell
+      value: |
+        # python -c "import platform,sys;print(sys.version);print(platform.platform())"
+        # ffmpeg -version | head -1
+        # python -c "import numpy,cv2,PIL,scipy;print(numpy.__version__,cv2.__version__,PIL.__version__,scipy.__version__)"
+        # git rev-parse --short HEAD
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: tried
+    attributes:
+      label: Before filing
+      options:
+        - label: I re-ran `setup.sh` and re-tested on the latest `main`
+          required: true
+        - label: I checked the Troubleshooting section of the README
+          required: true
+        - label: If this is a loudness issue, I attached the LUFS / true-peak numbers from `review_frames.py`
+          required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Visual bugs
+        A single frame settles most visual arguments. Find the timestamp, grab it, and drop the PNG here:
+
+        ```bash
+        ffmpeg -ss 27.1 -i out/short.mp4 -frames:v 1 /tmp/frame.png
+        ```

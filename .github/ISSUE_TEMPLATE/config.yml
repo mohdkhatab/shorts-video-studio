@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question / how do I use this?
+    url: https://github.com/mohdkhatab/shorts-video-studio/blob/main/README.md
+    about: Start with the README Quickstart and Troubleshooting sections.
+  - name: Security issue
+    url: https://github.com/mohdkhatab/shorts-video-studio/security/advisories/new
+    about: Please report vulnerabilities privately, not as a public issue.

@@ -1,0 +1,11 @@
+# shorts-video-studio runtime dependencies.
+# Install with:  bash skills/shorts-video-studio/scripts/setup.sh
+#
+# opencv-python-headless is used on purpose: the engine never opens a GUI window,
+# and the headless wheel is ~100 MB smaller and installs without X11 libs.
+numpy>=1.26,<3
+opencv-python-headless>=4.8,<6
+pillow>=10,<14
+scipy>=1.11,<2
+
+# ffmpeg + ffprobe are also required but are NOT pip packages - see README.

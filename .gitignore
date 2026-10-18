@@ -1,0 +1,42 @@
+# Build output
+out/
+work/
+*.mp4
+*.mkv
+*.webm
+*.mov
+*.srt
+*.ass
+*.wav
+*.mp3
+*.m4a
+*.aac
+render.log
+contact.png
+plan.md
+qa_report.md
+video.py
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.python-version
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Keep the committed example deliverable set:
+!examples/**/*.srt
+!examples/**/plan.md
+!examples/**/qa_report.md
+!examples/**/contact-sheet.png

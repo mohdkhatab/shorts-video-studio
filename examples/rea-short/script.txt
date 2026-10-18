@@ -1,0 +1,17 @@
+Bhai, tumhe pata hai? AI ki duniya mein ek naya bhaukaal aa chuka hai!
+
+GitHub par REA aaya hai. Yaani, Reverse Engineer Anything.
+
+Ek hafte mein ek lakh se zyada stars, aur number one trending repo!
+
+Kaam kaise karta hai? Apne AI agent ko kisi app par point karo, aur pucho, ye feature andar se kaise chalta hai.
+
+REA real analysis tools chalata hai, binaries se lekar Electron, Android aur websites tak, aur evidence ke saath findings deta hai.
+
+Phir AI wo data padhta hai, samajhta hai, aur batata hai ki feature kaise bana.
+
+Lekin dhyan rakho, REA khud decompile nahi karta. Asli dimaag AI ka hai, REA bas use sahi tools se jodta hai.
+
+Aur sirf wahi software kholo, jiski tumhe permission ho.
+
+Follow karo AI news ke liye. Comment mein batao, kya reverse engineer karoge?

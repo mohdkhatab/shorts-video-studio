@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: compile + headless render (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Install python deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Report environment
+        run: |
+          ffmpeg -version | head -1
+          python -c "import numpy,cv2,PIL,scipy;print('numpy',numpy.__version__,'| cv2',cv2.__version__,'| pillow',PIL.__version__,'| scipy',scipy.__version__)"
+          python -c "from PIL import features;print('freetype2',features.check('freetype2'),'raqm',features.check('raqm'))"
+
+      - name: Byte-compile every script
+        run: python -m compileall -q skills/shorts-video-studio/scripts
+
+      - name: Validate skill frontmatter
+        run: |
+          python - <<'PY'
+          import pathlib, sys
+          p = pathlib.Path("skills/shorts-video-studio/SKILL.md")
+          text = p.read_text(encoding="utf-8")
+          assert text.startswith("---\n"), "SKILL.md must start with YAML frontmatter"
+          fm = text.split("---\n", 2)[1]
+          keys = {line.split(":", 1)[0].strip() for line in fm.splitlines() if ":" in line}
+          assert "name" in keys, "frontmatter missing 'name'"
+          assert "description" in keys, "frontmatter missing 'description'"
+          print("frontmatter OK:", sorted(keys))
+          PY
+
+      - name: Font inventory
+        run: |
+          n=$(ls skills/shorts-video-studio/assets/fonts/*.ttf | wc -l)
+          l=$(ls skills/shorts-video-studio/assets/fonts/*-OFL.txt | wc -l)
+          echo "fonts=$n licenses=$l"
+          test "$n" -ge 15
+          test "$l" -ge 12
+
+      - name: Wav/PNG smoke render (no voiceover, no video)
+        working-directory: ${{ runner.temp }}
+        run: |
+          TEST=1 \
+          OUT_DIR=./out WORK=./work \
+          FONT_DIR=$GITHUB_WORKSPACE/skills/shorts-video-studio/assets/fonts \
+          python $GITHUB_WORKSPACE/skills/shorts-video-studio/scripts/shorts_engine_template.py
+          n=$(ls work/*.png | wc -l)
+          echo "frames=$n"
+          test "$n" -ge 20
+
+      - name: Emoji must render (not a blank placeholder)
+        working-directory: ${{ runner.temp }}
+        run: |
+          ENGINE=$GITHUB_WORKSPACE/skills/shorts-video-studio/scripts/shorts_engine_template.py \
+          python - <<'PY'
+          import importlib.util, os, numpy as np
+          spec = importlib.util.spec_from_file_location("ssv", os.environ["ENGINE"])
+          eng = importlib.util.module_from_spec(spec); spec.loader.exec_module(eng)
+          sp = eng.EM("\U0001F680", 96)           # rocket, a colour emoji
+          assert sp.ndim == 3 and sp.shape[2] == 4, f"unexpected sprite shape {sp.shape}"
+          assert sp[..., 3].max() > 0, "emoji sprite is fully transparent (font failed to load)"
+          assert sp[..., :3].max() > 0, "emoji sprite has no colour (monochrome fallback?)"
+          print("emoji sprite ok:", sp.shape, "alpha max", int(sp[..., 3].max()))
+          PY
+
+      - name: Frame decode check
+        working-directory: ${{ runner.temp }}
+        run: |
+          python - <<'PY'
+          import glob, cv2
+          frames = sorted(glob.glob("work/*.png"))
+          assert frames, "no frames were produced"
+          bad = [f for f in frames if cv2.imread(f) is None]
+          assert not bad, f"unreadable frames: {bad}"
+          print(f"all {len(frames)} frames decode cleanly")
+          PY
+
+      - name: Upload contact-sheet frames
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-frames-py${{ matrix.python }}
+          path: ${{ runner.temp }}/work/*.png
+          retention-days: 7
+
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shellcheck
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+      - name: Lint shell scripts
+        run: shellcheck -S warning install.sh skills/shorts-video-studio/scripts/setup.sh

@@ -1,0 +1,18 @@
+# Keep the bundled fonts byte-identical: Git's CRLF normalisation would corrupt them.
+*  -text=auto
+*.ttf binary
+*.ttc binary
+*.otf binary
+*.ttf diff=astextplain
+
+# Rendered media is not meant to be diffed.
+*.mp4 binary
+*.wav binary
+*.mp3 binary
+*.png binary
+*.jpg binary
+
+# Linguist: the repo is a Python tool, not a font dump.
+skills/shorts-video-studio/assets/fonts/* linguist-vendored
+*.ttf linguist-generated
+*.ttc linguist-generated
