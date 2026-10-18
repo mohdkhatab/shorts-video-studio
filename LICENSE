@@ -19,17 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-The MIT license above covers the source code of this repository (the skill
-instructions, the Python engine and helper scripts, the documentation and the
-example deliverables).
-
-The bundled fonts in `skills/shorts-video-studio/assets/fonts/` are NOT covered
-by the MIT license. They are third-party works distributed under the SIL Open
-Font License 1.1 (OFL-1.1); the per-font license files are included next to the
-font binaries and summarised in
-`skills/shorts-video-studio/assets/fonts/LICENSES.md`.
-
-See `NOTICE` for the full third-party inventory.

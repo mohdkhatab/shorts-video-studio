@@ -595,5 +595,12 @@ FilmCraft "Craft" apps; its sources and dates are listed in its `plan.md`.
 
 ## License
 
-[MIT](LICENSE) for the code and documentation. Bundled fonts are OFL-1.1 and are
-not covered by the MIT grant — see [NOTICE](NOTICE).
+[MIT](LICENSE) for the code and documentation.
+
+**Third-party assets:** the 15 bundled font files are **not** covered by the MIT
+grant. They are third-party works under the SIL Open Font License 1.1, including
+Noto Color Emoji (`Copyright 2013 Google LLC`). Per-font license text ships beside
+each binary and every upstream project is linked in [NOTICE](NOTICE).
+FFmpeg, NumPy, OpenCV, Pillow and SciPy are runtime dependencies, not vendored
+code; their licenses are listed in [NOTICE](NOTICE) as well.
+
